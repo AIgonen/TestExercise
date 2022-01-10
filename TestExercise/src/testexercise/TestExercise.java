@@ -16,6 +16,7 @@ public class TestExercise {
         
         LocalTime startTime;
         LocalTime endTime;
+        
                 
         System.out.println("siseskage kellaajad formaadis \"HH:mm\"");
         
@@ -26,7 +27,8 @@ public class TestExercise {
             System.out.println("Sisestage lõppkellaaeg");
             endTime = LocalTime.parse(scn.next());
             
-            PrintTimes(GetTimes(startTime, endTime), startTime, endTime); //printing amount of hours to a console
+            double[] times = GetTimes(startTime, endTime); // inserting in to array a ammount of hours at day and ammount of hours at night 
+            PrintTimes(times, startTime, endTime); //printing amount of hours to a console
         } catch(Exception e){
             System.out.println("Kellaeg on sisestatud valesti!");
         }
@@ -42,6 +44,7 @@ public class TestExercise {
         System.out.println("Öö\t " + times[1]);
         System.out.println("Päev\t " + times[0]);
     }
+
     
     /**
     * gets amount of night and day hours .
@@ -57,7 +60,7 @@ public class TestExercise {
 
         return times;
     }
-    
+        
     /**
     * finds amount of daytime hours.
     */

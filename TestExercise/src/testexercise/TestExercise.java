@@ -24,7 +24,7 @@ public class TestExercise {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm"); 
         
         String p1 = "21:00"; 
-        String p2 = "08:00"; 
+        String p2 = "09:00"; 
 
         Date startTime = formatter.parse(p1);
         Date endTime = formatter.parse(p2);

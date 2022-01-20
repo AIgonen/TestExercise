@@ -2,79 +2,74 @@
 package testexercise;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;  
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 
-
 public class TestExercise {
+    public static LocalDateTime now = LocalDateTime.now();
         
     public static void main(String[] args) throws ParseException {
-        
+        LocalDateTime now = LocalDateTime.now();
         Scanner scn = new Scanner(System.in);
         
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm"); 
-        
-        String p1 = "21:00"; 
-        String p2 = "09:00"; 
+        System.out.println("siseskage kellaajad formaadis \"HH:mm\"");
+        System.out.println("Sisestage alguskellaaeg");
+        String s1 = scn.next();
+        System.out.println("Sisestage lõppkellaaeg");
+        String s2 = scn.next();
 
-        Date startTime = formatter.parse(p1);
-        Date endTime = formatter.parse(p2);
-            
-        if (endTime.before(startTime)) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(endTime);
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            endTime = cal.getTime();
-        }
-            
         
+        int startTimegHour = Integer.parseInt(s1.substring(0, 2));
+        int StarttimeMinute = Integer.parseInt(s1.substring(3));
+        int endTimeHour = Integer.parseInt(s2.substring(0, 2));
+        int endTimeMinute = Integer.parseInt(s2.substring(3));
+   
+        
+        LocalDateTime startTime = now.withHour(startTimegHour).withMinute(StarttimeMinute).withSecond(0);
+        LocalDateTime endTime = now.withHour(endTimeHour).withMinute(endTimeMinute).withSecond(0);
+
+        
+            
         Result total = CalculatePeriods(startTime, endTime);
         System.out.println(total.toString());
-        
     }
     
-    private static Result CalculatePeriods(Date startTime, Date endTime) throws ParseException{
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm"); 
- //       DateTimeFormatter timeFormater = DateTimeFormatter.ofPattern("HH:mm");
-        
-        Date MorningHoursStart = formatter.parse("05:59");
-        Date NightHoursStart = formatter.parse("21:59");
-            
-        int dayTime = 0;
-        int nightTime = 0;
-        
-        double dayHours = 0;
-        double nightHours = 0;
-        
-        Date step = formatter.parse("00:15");
+    private static Result CalculatePeriods(LocalDateTime startTime, LocalDateTime endTime) throws ParseException{
 
-            while (startTime.before(endTime))
-            {
-                if (startTime.after(MorningHoursStart) && startTime.before(NightHoursStart)) {
-                    dayTime += 15;
-                } else{
-                    nightTime += 15;
-                }
-                
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(startTime);
-                cal.add(Calendar.MINUTE, 15);
-                startTime = cal.getTime();
+    LocalDateTime MorningHoursStart = now.withHour(5).withMinute(59).withSecond(0);
+    LocalDateTime NightHoursStart = now.withHour(21).withMinute(59).withSecond(0);
+
+    if (endTime.isBefore(startTime) && startTime.isAfter(NightHoursStart)) {
+            endTime = endTime.plusDays(1);
+            MorningHoursStart = MorningHoursStart.plusDays(1);
+            NightHoursStart = NightHoursStart.plusDays(1);
+    } else if (endTime.isBefore(startTime)) {
+            endTime = endTime.plusDays(1);
+    }
+    
+    
+    int dayTime = 0;
+    int nightTime = 0;
+
+    double dayHours = 0;
+    double nightHours = 0;
+
+        while (startTime.isBefore(endTime))
+        {
+            if (startTime.isAfter(MorningHoursStart) && startTime.isBefore(NightHoursStart)) {
+                dayTime += 15;
+            } else{
+                nightTime += 15;
             }
-            
-            dayHours = dayTime / 60.0;
-            nightHours = nightTime / 60.0;
-        
-            Result result = new Result(dayHours, nightHours);
-            return result;
+
+            startTime = startTime.plusMinutes(15);
         }
+
+        dayHours = dayTime / 60.0;
+        nightHours = nightTime / 60.0;
+        
+        Result result = new Result(dayHours, nightHours);
+        return result;
+    }
 }

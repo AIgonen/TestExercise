@@ -30,8 +30,5 @@ public class Result {
     public String toString() {
         return "päev: " + dayTimeTotal + ", öö: " + nightTimeTotal;
     }
-
-    
-
     
 }

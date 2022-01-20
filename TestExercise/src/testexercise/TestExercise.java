@@ -10,7 +10,6 @@ public class TestExercise {
     public static LocalDateTime now = LocalDateTime.now();
         
     public static void main(String[] args) throws ParseException {
-        LocalDateTime now = LocalDateTime.now();
         Scanner scn = new Scanner(System.in);
         
         System.out.println("siseskage kellaajad formaadis \"HH:mm\"");
@@ -19,7 +18,6 @@ public class TestExercise {
         System.out.println("Sisestage lõppkellaaeg");
         String s2 = scn.next();
 
-        
         int startTimegHour = Integer.parseInt(s1.substring(0, 2));
         int StarttimeMinute = Integer.parseInt(s1.substring(3));
         int endTimeHour = Integer.parseInt(s2.substring(0, 2));

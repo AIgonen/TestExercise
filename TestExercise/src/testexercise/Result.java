@@ -28,7 +28,7 @@ public class Result {
 
     @Override
     public String toString() {
-        return "päev: " + dayTimeTotal + ", öö: " + nightTimeTotal;
+        return "Väljund: \nöö:\t" + nightTimeTotal + "\npäev:\t" + dayTimeTotal;
     }
     
 }
